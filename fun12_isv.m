@@ -3,7 +3,7 @@ function [ans] = fun12_isv(x)
 % Panaudojimas:
 %             x=1; z= fun12(x)
 %                  z= fun12(1)
-if (x~=0) && (x~=-3)
-    ans= 7/(2*(x + 3).^2) + 1/x;
-else ans=NaN;
-end
+if ((x~=0) | (x~=-3))
+    ans= 7/(2*(x^2+ x *6 +9));
+else error(' f-jos reiksme nezinoma');
+end   
