@@ -1,4 +1,4 @@
-function [ans] = Niutono(func,func_isv,func_isv2,x1,x2,E,xa)
+function [saknis] = Niutono(func,func_isv,func_isv2,x1,x2,E,xa)
 % Sia F-ja randamas taskas kuris kerta x asi.
 %Parametrai:
 %   @func - pradine f-ja.
@@ -30,16 +30,19 @@ error('Nurodytame intervale (x1,x2) nera funkcijos nulio')
 end
 %Antras--------------------------
 %KONVERGAVIMO SALYGA
-j=x1:0.1:x2;
+ j=x1:0.1:x2;
 for i=1:length(j(1,:));
   fj(i)=func_isv(j(i));
   fj2(i)=func_isv2(j(i));
- end
- if abs(min(fj))>0
-    if abs(max(fj2))>99999999999
+end
+ m1=abs(min(fj));
+ m2=abs(max(fj2));
+ if m1>0
+    if m2>9999999999
      error('konvergacijos salyga nepatenkinta ');
      end
-else error('konvergacijos salyga nepatenkinta nes pirma isvestine lygi nuliui'); 
+else error('konvergacijos salyga nepatenkinta nes pirma isvestine lygi nuliui');
+ end 
 %paklaida------------------------
 pk = 1;
 n=1;
@@ -48,9 +51,10 @@ x(n)=xa;
 %While ciklas---------------------
 
 while (pk > E) 
-   x(n+1)=x(n)-((func(x(n))/func_isv(x(n)))) 
-   pk = abs(x(n+1)-x(n))
+   x(n+1)=x(n)-((func(x(n))/func_isv(x(n)))); 
+   pk = abs(x(n+1)-x(n));
    n = n+1;
-   ans=x(n);   
+     
 end
+saknis=x(n);
 end

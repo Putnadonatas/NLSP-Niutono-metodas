@@ -1,4 +1,4 @@
-function saknys = pilnasNM(func,func_isv,func_isv2,a,b,dx,filter,tol,xa)
+function saknys = pilnasNM(func,func_isv,func_isv2,a,b,dx,tol)
 % Paprastuju iteraciju metodu surandami visi funkcijos f(x) nuliai intervale (a,b).
 % IVEDIMO PARAMETRAI:
 %  @func - pradine f-ja.
@@ -13,28 +13,31 @@ function saknys = pilnasNM(func,func_isv,func_isv2,a,b,dx,filter,tol,xa)
 %Paleidmas:
 %saknis = pilnasNM(func,func_isv,func_isv2,a,b,dx,filter,tol,xa);
 
-if nargin<9 
-           xa =a+(b-a)*rand(1);            
-end
-if nargin<8 
-        tol=0.01;             
- end
-if nargin<7 
-            filter=0; 
- end
+
 if nargin<6 
+        tol=0.01;             
+end
+if nargin<5 
             dx=0.01;
+end
+if nargin<5 
+           error('per mazai ivesta elementu');
+end
+if a<0
+ a=10^(-10);
+end
+  if a<0 a=0;
   end
 a_pradinis=a;
 saknusk = 0;
 while 1
- [x1,x2] = skaidosmetodas(func,a,b,dx);
+ [x1,x2] = skaidosmetodas(func,a,b,1);
  if isnan(x1) 
     disp('Daugiau sprendiniu nera');
     break
  else
    a = x2;
-   saknis = Niutono(func,func_isv,func_isv2,x1,x2,tol,xa);
+   saknis = Niutono(func,func_isv,func_isv2,x1,x2,tol);
     if ~isnan(saknis)
          saknusk = saknusk + 1;
                      if saknis < b
@@ -50,5 +53,5 @@ end
 plot(x,y)
 hold on;
 x_saknys = saknys;
-y_saknys = func(x_saknys)
+y_saknys = func(x_saknys);
 scatter(x_saknys, y_saknys,'*r');
